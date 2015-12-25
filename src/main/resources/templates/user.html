@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<link rel="stylesheet" href="/css/layout.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style>
+body {width:100%;text-align:center;margin-top: 180px;}
+</style>
+
+<body style="margin-top: 120px;">
+	<p align="center">用户信息</p>
+	<table border="1" align="center" width="800px">
+		<tr>
+			<td>Email</td>
+			<td th:text="${user.emailAddress}">42</td>
+		</tr>
+		<tr>
+			<td>昵称</td>
+			<td th:text="${user.nickName}">42</td>
+		</tr>
+		<tr>
+			<td>性别</td>
+			<td th:text="${user.gender}">42</td>
+		</tr>
+		<tr>
+			<td>年龄</td>
+			<td th:text="${user.age}">42</td>
+		</tr>
+		<tr>
+			<td>身高</td>
+			<td th:text="${user.height}">42</td>
+		</tr>
+		<tr>
+			<td>体重</td>
+			<td th:text="${user.weight}">42</td>
+		</tr>
+
+	</table>
+	<br />
+	<br />
+	<form action="/workoutresults/get_results_workout" method="Get" align="center">
+		<input type="submit" value="获取运动数据" />
+		<input type="hidden" name="userId" th:value="${user.userId}"/>
+	</form>
+	<br/>
+	<form
+		action="/workoutresults/get_manualcardio_results" method="Get" align="center">
+		<input type="submit" value="获取手动输入数据" />
+		<input type="hidden" name="userId" th:value="${user.userId}"/>
+		<br/>
+		<br/>
+        <input type="button" value="返回" align="center" onclick="location.href = 'http://laikang.enn.cn:8080/index'" />
+	</form>
+</body>
+</html>

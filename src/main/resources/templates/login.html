@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="js/jquery-1.5.2.min.js" type="text/javascript"></script>
+<style>
+body {width:100%;text-align:center;margin-top: 180px;}
+</style>
+</head>
+<body background="images/BG.png">
+	<p style="font: bold 26px/26px arial, sans-serif;">欢迎登录运动管理中心！</p>
+	<br />
+	<br />
+	<p style="color:red" th:text="${err}">验证错误！</p>
+	<form action="/login" method="post" >
+		<input type="text" name="emailAddress" value="请输入注册邮箱..." style="background-image:url(input.png);" onclick="this.value=''" />
+        <br /><br />
+        <input type="password" name="password" value="请输入密码......" style="background-image:url(input.png);" onclick="this.value=''" />
+        <br /><br />
+       <input type="image" src="images/login.png" onclick="$('form').submit()"/>
+
+	</form>
+</body>
+
+</html>

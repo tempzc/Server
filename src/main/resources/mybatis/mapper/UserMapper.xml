@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.ilodo.mybatis.mapper.UserMapper">
+	<resultMap id="userMap" type="User">
+		<id property="userId" column="userId" />
+		<result property="userName" column="userName" javaType="string" jdbcType="VARCHAR" />
+		<result property="nickName" column="nickName" javaType="string" jdbcType="VARCHAR" />
+		<result property="gender" column="gender" javaType="string" jdbcType="VARCHAR" />
+		<result property="age" column="age" javaType="int" jdbcType="INTEGER" />
+		<result property="password" column="password" javaType="string"	jdbcType="VARCHAR" />
+		<result property="emailAddress" column="emailAddress" javaType="string"	jdbcType="VARCHAR" />
+		<result property="mobile" column="mobile" javaType="string"	jdbcType="VARCHAR" />
+		<result property="createTime" column="createTime" javaType="date" />
+		<result property="updateTime" column="updateTime" javaType="date" />
+		<result property="createdOn" column="createdOn" javaType="date" />
+	</resultMap>
+
+	<select id="getUser" resultType="User"> 
+        <![CDATA[
+            SELECT * from s_user WHERE emailAddress = #{emailAddress} and password=#{password}
+        ]]>
+	</select>
+
+	<select id="getUserByUserId" resultType="User"> 
+        <![CDATA[
+            SELECT * from s_user WHERE userId = #{userId} 
+        ]]>
+	</select>
+
+	<update id="updateUserByUserId"> 
+        <![CDATA[
+            update s_user set deleted=1 WHERE userId = #{userId} 
+        ]]>
+	</update>
+
+	<!-- 查询用户列表 -->
+	<select id="getAllUsers" resultType="User" resultMap="userMap"> 
+        <![CDATA[
+            SELECT * from s_user where deleted=0
+        ]]>
+	</select>
+
+	<insert id="insertUser" parameterType="User" useGeneratedKeys="true"> 
+        <![CDATA[
+            insert into s_user (nickName,firstName,lastName,age,height,heightUnit,
+            weight,weightUnit,preferredUnit,emailAddress,password,createdOn,createTime,token) 
+            values (#{nickName},#{firstName},#{lastName},#{age},#{height},#{heightUnit},
+            #{weight},#{weightUnit},#{preferredUnit},#{emailAddress},#{password},#{createdOn},
+            #{createTime},#{token}) 
+        ]]>
+	</insert>
+
+	<update id="updateUser" parameterType="User"> 
+        <![CDATA[
+            update s_user 
+            set nickName=#{nickName},age=#{age},height=#{height},
+            weight=#{weight},gender=#{gender}
+            where emailAddress=#{emailAddress}
+        ]]>
+	</update>
+
+	<update id="updateUserDeleted" parameterType="User"> 
+        <![CDATA[
+            update s_user 
+            set deleted = #{deleted}
+            where emailAddress=#{emailAddress}
+        ]]>
+	</update>
+
+	<delete id="deleteUserByUserId" parameterType="long"> 
+        <![CDATA[
+            delete * from t_user  WHERE userId = #{userId} 
+        ]]>
+	</delete>
+
+	<delete id="deleteUser"> 
+        <![CDATA[
+            delete * from t_user  WHERE emailAddress = #{emailAddress} 
+        ]]>
+	</delete>
+</mapper>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+.width10{
+   width:10%
+}
+
+#dev td{
+   width:15%
+}
+</style>
+</head>
+
+<body>
+	<p align="center">运动记录</p>
+	<table th:each="data,dataStat : ${list}" border="1" align="center" width="800px">
+		<tr width="auto">
+			<td width="40px">设备名称</td><td th:text="${data.equipmentName}">Onions</td>
+		</tr>
+		<tr id="dev" width="auto">
+			<td>设备id</td><td th:text="${data.equipmentId}"></td>
+			<td>累计卡洛里</td><td th:text="${data.calorie}">yes</td>
+			<td>累计距离</td><td th:text="${data.distance}"></td>
+			<td>累计时长</td><td th:text="${data.duration}"></td>
+			<td>单位</td><td th:text="${data.unit}"></td>
+		</tr>
+		<tr>
+			<th width="40px">运动详情</th>
+		</tr>
+		<tr width="auto" th:each="dd,ddStat : ${data.cardioDataDetails}">
+			<td>日期</td><td th:text="${dd.dateString}"></td>
+			<td>卡洛里</td><td th:text="${dd.calorie}"></td>
+			<td>距离</td><td th:text="${dd.distance}"></td>
+			<td>时长</td><td th:text="${dd.duration}"></td>
+		</tr>
+        <tr height="30px"></tr>
+	</table>
+	<br/>
+	<br/>
+	<p align="center"><input type="button" value="返回" onclick="javascript:location.href = document.referrer" /></p>
+</body>
+</html>

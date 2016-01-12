@@ -50,7 +50,7 @@ public class UserController {
 			msg = "fail";
 		}
 		
-        Map map =new HashMap();
+        Map<String,String> map =new HashMap<String,String>();
         map.put("ret",ret);
         map.put("msg",msg);
         

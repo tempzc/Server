@@ -17,7 +17,7 @@ public interface UserMapper {
 
 	/**
 	 * 根据账号获得用户
-	 * @param userAccount 用户账号
+	 * @param user 用户账号
 	 * @return
 	 */
 	@Options(useCache = true, flushCache = false, timeout = 10000)
@@ -42,24 +42,45 @@ public interface UserMapper {
 	 */
 	@Options(useCache = true, flushCache = false, timeout = 10000)
 	public List<User> getAllUsers();
+	
+	/**
+	 * 获得所有用户
+	 * @return
+	 */
+	@Options(useCache = true, flushCache = false, timeout = 10000)
+	public List<User> getAllExpiredUsers();
 
 	/**
 	 * 添加用户
-	 * @param userAccount
+	 * @param user
 	 */
 	@Options(flushCache = true, timeout = 20000)
 	public void insertUser(User user);
 
 	/**
 	 * 更新用户
-	 * @param userAccount
+	 * @param user
 	 */
 	@Options(flushCache = true, timeout = 20000)
 	public void updateUser(User user);
 	/**
 	 * 删除一个用户
-	 * @param userAccount
+	 * @param emailAddress
 	 */
 	@Options(flushCache = true, timeout = 20000)
 	public void deleteUser(String emailAddress);
+	
+	/**
+	 * 更新用户过期token
+	 * @param user
+	 */
+	@Options(flushCache = true, timeout = 20000)
+	public void updateUserExpire();
+	
+	/**
+	 * 更新用户token
+	 * @param user
+	 */
+	@Options(flushCache = true, timeout = 20000)
+	public void updateUserExpireAndToken(User user);
 }

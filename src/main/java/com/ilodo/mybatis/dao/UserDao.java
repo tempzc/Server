@@ -21,6 +21,9 @@ public interface UserDao {
 	public void deleteUser(String emailAddress);
 	public void updateUser(@Param("user") User user);
 	public void updateUserDeleted(@Param("user") User user);
+	public void updateUserExpire();
+	public void updateUserExpireAndToken(User user);
 	public List<User> getAllUsers();
+	public List<User> getAllExpiredUsers();
 
 }

@@ -3,13 +3,9 @@ package com.ilodo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Spring 入口类
@@ -23,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 //@EnableWebMvc
 @ComponentScan
 @ImportResource(value="classpath:xmlconfig/spring.xml")
+@EnableScheduling
 public class Application {
     public static void main(String[] args) {
 //    	ApplicationContext ctx = new ClassPathXmlApplicationContext("xmlconfig/spring.xml");

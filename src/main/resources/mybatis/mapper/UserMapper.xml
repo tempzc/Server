@@ -9,6 +9,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<result property="userName" column="userName" javaType="string" jdbcType="VARCHAR" />
 		<result property="nickName" column="nickName" javaType="string" jdbcType="VARCHAR" />
 		<result property="gender" column="gender" javaType="string" jdbcType="VARCHAR" />
+		<result property="token" column="token" javaType="string" jdbcType="VARCHAR" />
+		<result property="refreshToken" column="refreshToken" javaType="string" jdbcType="VARCHAR" />
 		<result property="age" column="age" javaType="int" jdbcType="INTEGER" />
 		<result property="password" column="password" javaType="string"	jdbcType="VARCHAR" />
 		<result property="emailAddress" column="emailAddress" javaType="string"	jdbcType="VARCHAR" />
@@ -35,21 +37,41 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
             update s_user set deleted=1 WHERE userId = #{userId} 
         ]]>
 	</update>
+	
+	<update id="updateUserExpire"> 
+        <![CDATA[
+            update s_user set tokenExpire=1 WHERE DATEDIFF(NOW(),createTime)>360 
+        ]]>
+	</update>
 
+	<update id="updateUserExpireAndToken" parameterType="User"> 
+        <![CDATA[
+            update s_user set tokenExpire=0,token=#{token},refreshToken=#{refreshToken},
+            updateTime=#{updateTime} 
+            WHERE userId = #{userId} 
+        ]]>
+	</update>
 	<!-- 查询用户列表 -->
 	<select id="getAllUsers" resultType="User" resultMap="userMap"> 
         <![CDATA[
             SELECT * from s_user where deleted=0
         ]]>
 	</select>
+	
+	<select id="getAllExpiredUsers" resultType="User" resultMap="userMap"> 
+        <![CDATA[
+            SELECT * from s_user where deleted=0 and tokenExpire = 1
+        ]]>
+	</select>
 
 	<insert id="insertUser" parameterType="User" useGeneratedKeys="true"> 
         <![CDATA[
             insert into s_user (nickName,firstName,lastName,age,height,heightUnit,
-            weight,weightUnit,preferredUnit,emailAddress,password,createdOn,createTime,token) 
+            weight,weightUnit,preferredUnit,emailAddress,password,createdOn,createTime,
+            token,refreshToken) 
             values (#{nickName},#{firstName},#{lastName},#{age},#{height},#{heightUnit},
-            #{weight},#{weightUnit},#{preferredUnit},#{emailAddress},#{password},#{createdOn},
-            #{createTime},#{token}) 
+            #{weight},#{weightUnit},#{preferredUnit},#{emailAddress},#{password},
+            #{createdOn},#{createTime},#{token},#{refreshToken}) 
         ]]>
 	</insert>
 

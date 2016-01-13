@@ -1,7 +1,9 @@
 package com.ilodo.mybatis.controller.mvc;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.Map;
 import org.apache.catalina.util.URLEncoder;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +45,7 @@ public class LFconnectController {
 	private UserDao userDao;
 	private User mainUser;
 	private static String token;
+	private static String refreshToken;
 	private String uri;
 	private int op ;
 
@@ -84,6 +88,7 @@ public class LFconnectController {
 					e.printStackTrace();
 				}
 				mainUser.setToken(token);
+				mainUser.setRefreshToken(refreshToken);
 				mainUser.setCreateTime(Calendar.getInstance().getTime());
 				mainUser.setPassword(Md5.md5(password.trim()));
 				userDao.insertUser(mainUser);
@@ -112,7 +117,9 @@ public class LFconnectController {
 	 */
 	@RequestMapping(value = "/loginback", method = RequestMethod.GET)
 	public @ResponseBody String loginback(@RequestParam("code") String code, Model model) {
-		token = HttpClient.getTokenOld(code);
+		Map<String,String> map = HttpClient.getTokenMap(code);
+		token = (String) map.get("access_token");
+		refreshToken = (String) map.get("refresh_token");
 		return token;
 	}
 
@@ -175,7 +182,7 @@ public class LFconnectController {
 	public String getResultsWorkout(@Param("userId") long userId,Model model) {
 		User user = userDao.getUserByUserId(userId);
 		String fromDate = "11/10/2015";
-		String toDate = "12/31/2015";
+		String toDate = "12/31/2016";
 		String timeZone = "GMT-0800";
 		uri = "/workoutresults/get_results_workout" + "?fromDate=" + fromDate + "&toDate=" + toDate + "&timezone="
 				+ timeZone + "&access_token=" + new URLEncoder().encode(user.getToken());
@@ -200,7 +207,7 @@ public class LFconnectController {
 	public String getManualCardioResults(@Param("userId") long userId,Model model) {
 		User user = userDao.getUserByUserId(userId);
 		String fromDate = "11/10/2015";
-		String toDate = "12/30/2015";
+		String toDate = "12/30/2016";
 		String timeZone = "GMT-0800";
 		uri = "/workoutresults/get_manualcardio_results" + "?fromDate=" + fromDate + "&toDate=" + toDate + "&timezone="
 				+ timeZone + "&access_token=" + new URLEncoder().encode(user.getToken());
@@ -241,7 +248,7 @@ public class LFconnectController {
 
 		return map;
 	}
-
+	
 	public int getOp() {
 		return op;
 	}

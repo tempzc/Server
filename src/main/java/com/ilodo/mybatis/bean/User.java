@@ -34,6 +34,7 @@ public class User {
 	private Date createTime;
 	private Date updateTime;
 	private String token;
+	private String refreshToken;
 	private int tokenExpire;
 	private int deleted;
 	
@@ -167,6 +168,11 @@ public class User {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
 	
-    
 }

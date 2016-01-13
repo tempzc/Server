@@ -62,6 +62,21 @@ public class UserDaoImpl implements UserDao{
 	public User getUserByUserId(long userId) {
 		return userMapper.getUserByUserId(userId);
 	}
+	
+	@Override
+	public void updateUserExpire() {
+	    userMapper.updateUserExpire();
+	}
+	
+	@Override
+	public void updateUserExpireAndToken(User user) {
+	    userMapper.updateUserExpireAndToken(user);
+	}
+	@Override
+	public List<User> getAllExpiredUsers() {
+		// TODO Auto-generated method stub
+		return userMapper.getAllExpiredUsers();
+	}
     
 }
 

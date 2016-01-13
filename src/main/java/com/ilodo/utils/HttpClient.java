@@ -105,23 +105,41 @@ public class HttpClient {
 		return ret;
 	}
 	
-	public static String getTokenOld(String code){
+	public static Map<String,String> getTokenMap(String code){
 		NameValuePair[] params = new NameValuePair[4];
 		params[0] = new BasicNameValuePair("grant_type","authorization_code");
 		params[1] = new BasicNameValuePair("client_id","a8c977504e8285696a9b58bd229fa4a1"); 
 		params[2] = new BasicNameValuePair("client_secret","889accf5f908d0675dfe8f83a243c0c8"); 
 		params[3] = new BasicNameValuePair("code",code);
 		String ret = post(RequestURL.AuthorizeResponse.getName(),params);
-		String token = null;
+		Map map = null;
 		if (ret != null && !"".equals(ret)) {
 			try {
-				Map map = ConvertUtils.jsonToBean(ret, Map.class);
-				token = (String) map.get("access_token");
+				map = ConvertUtils.jsonToBean(ret, Map.class);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} 
 		}
-		return token;
+		return map;
+	}
+	
+	public static Map<String,String> getRefreshTokenMap(String refreshToken){
+		NameValuePair[] params = new NameValuePair[4];
+		params[0] = new BasicNameValuePair("grant_type","authorization_code");
+		params[1] = new BasicNameValuePair("client_id","a8c977504e8285696a9b58bd229fa4a1"); 
+		params[2] = new BasicNameValuePair("client_secret","889accf5f908d0675dfe8f83a243c0c8"); 
+		params[3] = new BasicNameValuePair("refresh_token",refreshToken);
+		params[3] = new BasicNameValuePair("redirect_uri","http://laikang.enn.cn:8080/refreshTokenBack");
+		String ret = post(RequestURL.AuthorizeResponse.getName(),params);
+		Map map = null;
+		if (ret != null && !"".equals(ret)) {
+			try {
+				map = ConvertUtils.jsonToBean(ret, Map.class);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		}
+		return map;
 	}
 	
 	public static String api(String token,String uri){
